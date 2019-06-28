@@ -8,8 +8,8 @@ import cmd = require("../src");
 
 const deleteFolderRecursive = (path: string) => {
   if (fs.existsSync(path)) {
-    fs.readdirSync(path).forEach(function(file, index) {
-      var curPath = path + "/" + file;
+    fs.readdirSync(path).forEach(function(file) {
+      const curPath = path + "/" + file;
       if (fs.lstatSync(curPath).isDirectory()) {
         // recurse
         deleteFolderRecursive(curPath);
@@ -29,7 +29,7 @@ const makeNestedDir = (dir: string) => {
   try {
     fs.mkdirSync(dir);
   } catch (err) {
-    if (err.code == "ENOENT") {
+    if (err.code === "ENOENT") {
       makeNestedDir(path.dirname(dir)); //create parent dir
       makeNestedDir(dir); //create dir
     }
@@ -39,7 +39,7 @@ const makeNestedDir = (dir: string) => {
 const setupFS = (files: Record<string, string>) => {
   let dir: string | undefined;
   return {
-    async run(ctx: any, ...rest: any) {
+    async run() {
       // make a random temp dir & chdir into it
       dir = fs.mkdtempSync("__tmp__");
       process.chdir(dir);
@@ -49,7 +49,7 @@ const setupFS = (files: Record<string, string>) => {
         fs.writeFileSync(key, files[key]);
       });
     },
-    finally(ctx: any) {
+    finally() {
       process.chdir("../");
       deleteFolderRecursive(dir as string);
     }

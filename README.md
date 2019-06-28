@@ -1,5 +1,4 @@
-graphql-json-to-sdl
-===================
+# graphql-json-to-sdl
 
 A command line utility for converting a JSON GraphQL schema to GraphQL SDL.
 
@@ -10,8 +9,19 @@ A command line utility for converting a JSON GraphQL schema to GraphQL SDL.
 [![Downloads/week](https://img.shields.io/npm/dw/graphql-json-to-sdl.svg)](https://npmjs.org/package/graphql-json-to-sdl)
 [![License](https://img.shields.io/npm/l/graphql-json-to-sdl.svg)](https://github.com/CDThomas/graphql-json-to-sdl/blob/master/package.json)
 
-<!-- toc -->
 # Usage
-<!-- usage -->
-# Commands
-<!-- commands -->
+
+```bash
+$ graphql-json-to-sdl SRC OUT
+```
+
+## Arguments:
+
+- SRC: The JSON GraphQL schema to convert
+- OUT: The output file
+
+## Example:
+
+```bash
+$ graphql-json-to-sdl ./schema.json ./schema.graphql
+```

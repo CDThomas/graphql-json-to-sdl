@@ -1,5 +1,5 @@
-import fs from "fs";
 import { Command } from "@oclif/command";
+import fs from "fs";
 import { buildClientSchema, printSchema } from "graphql";
 
 interface GraphQLType {
@@ -12,11 +12,17 @@ interface GraphQLField {
 }
 
 class GraphqlJsonToSdl extends Command {
-  static description = "describe the command here";
+  static description = "Converts a JSON GraphQL schema to GraphQL SDL.";
+
+  static examples = ["$ graphql-json-to-sdl ./schema.json ./schema.graphql"];
 
   static args = [
-    { name: "src", required: true },
-    { name: "out", required: true }
+    {
+      name: "src",
+      required: true,
+      description: "The JSON GraphQL schema to convert."
+    },
+    { name: "out", required: true, description: "The output file." }
   ];
 
   async run() {

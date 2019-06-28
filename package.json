@@ -47,7 +47,8 @@
   },
   "repository": "CDThomas/graphql-json-to-sdl",
   "scripts": {
-    "posttest": "tslint -p . -t stylish",
+    "lint": "tslint -p . -t stylish",
+    "posttest": "yarn lint",
     "prepack": "rm -rf lib && tsc -b",
     "test": "jest",
     "test:watch": "jest --watch"
