@@ -6,6 +6,9 @@
     "module": "commonjs",
     "outDir": "lib",
     "rootDir": "src",
+    // Work around for Jest and Mocha declaring the same global types.
+    // Mocha is a dependency of @oclif/test.
+    "skipLibCheck": true,
     "strict": true,
     "target": "es2017"
   },
