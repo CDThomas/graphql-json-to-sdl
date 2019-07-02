@@ -1,4 +1,4 @@
-import { Command } from "@oclif/command";
+import { Command, flags } from "@oclif/command";
 import fs from "fs";
 import { buildClientSchema, printSchema } from "graphql";
 
@@ -24,6 +24,11 @@ class GraphqlJsonToSdl extends Command {
     },
     { name: "out", required: true, description: "The output file." }
   ];
+
+  static flags = {
+    version: flags.version(),
+    help: flags.help()
+  };
 
   async run() {
     const { args } = this.parse(GraphqlJsonToSdl);

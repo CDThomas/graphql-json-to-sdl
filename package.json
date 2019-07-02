@@ -21,6 +21,7 @@
     "@types/jest": "^24.0.15",
     "@types/node": "^10",
     "chai": "^4.2.0",
+    "codecov": "^3.5.0",
     "jest": "^24.8.0",
     "prettier": "^1.18.2",
     "ts-jest": "^24.0.2",
@@ -50,6 +51,7 @@
     "lint": "tslint -p . -t stylish",
     "posttest": "yarn lint",
     "prepack": "rm -rf lib && tsc -b",
+    "report-coverage": "cat ./coverage/lcov.info | codecov",
     "test": "jest",
     "test:watch": "jest --watch"
   },
