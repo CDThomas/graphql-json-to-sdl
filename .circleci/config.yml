@@ -1,9 +1,9 @@
 ---
 version: 2
 jobs:
-  node-latest: &test
+  node-10: &test
     docker:
-      - image: node:latest
+      - image: node:10
     working_directory: ~/cli
     steps:
       - checkout
@@ -22,14 +22,6 @@ jobs:
       - run:
           name: Report Coverage
           command: yarn report-coverage
-  # node-8:
-  #   <<: *test
-  #   docker:
-  #     - image: node:8
-  # node-10:
-  #   <<: *test
-  #   docker:
-  #     - image: node:10
   cache:
     <<: *test
     steps:
@@ -48,8 +40,6 @@ workflows:
   version: 2
   "graphql-json-to-sdl":
     jobs:
-      - node-latest
-      - node-8
       - node-10
       - cache:
           filters:
