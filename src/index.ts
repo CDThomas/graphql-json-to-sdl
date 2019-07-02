@@ -34,16 +34,26 @@ class GraphqlJsonToSdl extends Command {
     const { args } = this.parse(GraphqlJsonToSdl);
     const { src, out } = args;
 
-    writeSchema(src, out);
+    try {
+      writeSchema(src, out);
+    } catch (error) {
+      if (error instanceof EmptySchemaError) {
+        this.error(
+          `Schema file ${src} is empty. Please provide a valid JSON schema.`,
+          { exit: 1 }
+        );
+      }
+    }
   }
 }
+
+class EmptySchemaError extends Error {}
 
 function writeSchema(src: string, out: string) {
   const fileContent = fs.readFileSync(src, "utf-8");
 
   if (!fileContent) {
-    throw new Error("no schema found");
-    return;
+    throw new EmptySchemaError();
   }
 
   const { data } = JSON.parse(fileContent);

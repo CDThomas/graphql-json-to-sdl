@@ -82,10 +82,34 @@ describe("graphql-json-to-sdl", () => {
     });
 });
 
+describe("given an empty JSON GraphQL schema", () => {
+  test
+    .register("fs", setupFS)
+    .fs({
+      "./emptySchema.json": ""
+    })
+    .stderr()
+    .do(() => cmd.run(["./emptySchema.json", "./schema.graphql"]))
+    .catch(error =>
+      expect(error.message).toMatch(/Schema file .\/emptySchema.json is empty/)
+    )
+    .it("writes to stderr");
+
+  test
+    .register("fs", setupFS)
+    .fs({
+      "./emptySchema.json": ""
+    })
+    .stderr()
+    .do(() => cmd.run(["./emptySchema.json", "./schema.graphql"]))
+    .exit(1)
+    .it("exits with a status of 1");
+});
+
 /*
   TODO:
   - Test that types/fields in different order in input result in output
     with sorted types and fields.
-  - Test invalid src (non-existant file, malformed JSON, etc)
+  - Test other invalid src formats (malformed JSON, etc)
   - Test output errors
 */
