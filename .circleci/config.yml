@@ -18,15 +18,18 @@ jobs:
       - run: ./bin/run --help
       - run:
           name: Testing
-          command: yarn test
-  node-8:
-    <<: *test
-    docker:
-      - image: node:8
-  node-10:
-    <<: *test
-    docker:
-      - image: node:10
+          command: yarn test --coverage
+      - run:
+          name: Report Coverage
+          command: yarn report-coverage
+  # node-8:
+  #   <<: *test
+  #   docker:
+  #     - image: node:8
+  # node-10:
+  #   <<: *test
+  #   docker:
+  #     - image: node:10
   cache:
     <<: *test
     steps:
