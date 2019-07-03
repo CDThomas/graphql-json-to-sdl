@@ -3,7 +3,7 @@ import fs from "fs";
 import { buildClientSchema, printSchema } from "graphql";
 
 interface GraphQLType {
-  readonly name: string | null;
+  readonly name: string;
   readonly fields: GraphQLField[] | null;
 }
 
@@ -59,10 +59,6 @@ function writeSchema(src: string, out: string) {
   const { data } = JSON.parse(fileContent);
 
   data.__schema.types.sort((a: GraphQLType, b: GraphQLType) => {
-    if (!a.name || !b.name) {
-      return compareUnnamedTypes(a, b);
-    }
-
     return a.name.localeCompare(b.name);
   });
 
@@ -79,16 +75,6 @@ function writeSchema(src: string, out: string) {
   const graphqlSchemaString = printSchema(clientSchema);
 
   fs.writeFileSync(out, graphqlSchemaString);
-}
-
-function compareUnnamedTypes(a: GraphQLType, b: GraphQLType): number {
-  if (!isNamedType(a) && isNamedType(b)) return -1;
-  if (isNamedType(a) && !isNamedType(b)) return 1;
-  return 0;
-}
-
-function isNamedType(type: GraphQLType): boolean {
-  return !!type.name;
 }
 
 export = GraphqlJsonToSdl;

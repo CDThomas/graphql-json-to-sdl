@@ -68,7 +68,7 @@ const resolveFiles = (opts: { [testPath: string]: string }) => {
   return files;
 };
 
-describe("graphql-json-to-sdl", () => {
+describe("graphql-json-to-sdl given valid input", () => {
   test
     .register("fs", setupFS)
     .fs(
@@ -82,7 +82,7 @@ describe("graphql-json-to-sdl", () => {
     });
 });
 
-describe("given an empty JSON GraphQL schema", () => {
+describe("graphql-json-to-sdl given an empty JSON GraphQL schema", () => {
   test
     .register("fs", setupFS)
     .fs({
