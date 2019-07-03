@@ -26,8 +26,8 @@ class GraphqlJsonToSdl extends Command {
   ];
 
   static flags = {
-    version: flags.version(),
-    help: flags.help()
+    version: flags.version({ char: "v" }),
+    help: flags.help({ char: "h" })
   };
 
   async run() {

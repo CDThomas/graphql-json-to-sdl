@@ -20,6 +20,11 @@ $ graphql-json-to-sdl SRC OUT
 - SRC: The JSON GraphQL schema to convert
 - OUT: The output file
 
+## Options:
+
+- `-h`, `--help`: show CLI help
+- `-v`, `--version`: show CLI version
+
 ## Example:
 
 ```bash
