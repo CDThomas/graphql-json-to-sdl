@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`graphql-json-to-sdl writes a file 1`] = `
+exports[`graphql-json-to-sdl given valid input writes a file 1`] = `
 "\\"\\"\\"A character from the Star Wars universe\\"\\"\\"
 interface Character {
   \\"\\"\\"The movies this character appears in\\"\\"\\"
