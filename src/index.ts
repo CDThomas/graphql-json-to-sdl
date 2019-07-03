@@ -43,6 +43,8 @@ class GraphqlJsonToSdl extends Command {
           { exit: 1 }
         );
       }
+
+      this.error(error, { exit: 1 });
     }
   }
 }

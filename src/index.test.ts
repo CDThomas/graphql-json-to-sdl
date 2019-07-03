@@ -88,7 +88,6 @@ describe("graphql-json-to-sdl given an empty JSON GraphQL schema", () => {
     .fs({
       "./emptySchema.json": ""
     })
-    .stderr()
     .do(() => cmd.run(["./emptySchema.json", "./schema.graphql"]))
     .catch(error =>
       expect(error.message).toMatch(/Schema file .\/emptySchema.json is empty/)
@@ -100,8 +99,23 @@ describe("graphql-json-to-sdl given an empty JSON GraphQL schema", () => {
     .fs({
       "./emptySchema.json": ""
     })
-    .stderr()
     .do(() => cmd.run(["./emptySchema.json", "./schema.graphql"]))
+    .exit(1)
+    .it("exits with a status of 1");
+});
+
+describe("graphql-json-to-sdl given a file that doesn't exist", () => {
+  test
+    .do(() => cmd.run(["./missingSchema.json", "./schema.graphql"]))
+    .catch(error =>
+      expect(error.message).toMatch(
+        /ENOENT: no such file or directory, open '.\/missingSchema.json'/
+      )
+    )
+    .it("writes to stderr");
+
+  test
+    .do(() => cmd.run(["./missingSchema.json", "./schema.graphql"]))
     .exit(1)
     .it("exits with a status of 1");
 });
@@ -111,5 +125,4 @@ describe("graphql-json-to-sdl given an empty JSON GraphQL schema", () => {
   - Test that types/fields in different order in input result in output
     with sorted types and fields.
   - Test other invalid src formats (malformed JSON, etc)
-  - Test output errors
 */
