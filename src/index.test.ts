@@ -70,7 +70,7 @@ const resolveFiles = (opts: { [testPath: string]: string }) => {
   return files;
 };
 
-describe("graphql-json-to-sdl given valid input", () => {
+describe("graphql-json-to-sdl given a valid GraphQL schema as JSON", () => {
   test
     .register("fs", setupFS)
     .fs(
@@ -79,7 +79,7 @@ describe("graphql-json-to-sdl given valid input", () => {
       })
     )
     .do(() => cmd.run(["./schema.json", "./schema.graphql"]))
-    .it("writes a file", () => {
+    .it("writes the GraphQL schema in SDL to a file", () => {
       expect(fs.readFileSync("./schema.graphql").toString()).toMatchSnapshot();
     });
 });
@@ -109,6 +109,9 @@ describe("graphql-json-to-sdl given schemas with the same types and fields in a 
     .it("produces the same output", () => {
       const schemaOne = fs.readFileSync("./schemaOne.graphql").toString();
       const schemaTwo = fs.readFileSync("./schemaTwo.graphql").toString();
+
+      expect(schemaOne).toBeTruthy();
+      expect(schemaTwo).toBeTruthy();
       expect(schemaOne).toBe(schemaTwo);
     });
 });
