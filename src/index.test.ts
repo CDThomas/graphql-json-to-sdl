@@ -135,7 +135,7 @@ describe("graphql-json-to-sdl given one argument", () => {
     .it("writes to stderr");
 
   test
-    .do(() => cmd.run([]))
+    .do(() => cmd.run(["./schema.json"]))
     .exit(2)
     .it("exits with a status of 2");
 });
