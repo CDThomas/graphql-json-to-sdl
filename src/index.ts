@@ -2,14 +2,7 @@ import { Command, flags } from "@oclif/command";
 import fs from "fs";
 import { buildClientSchema, printSchema } from "graphql";
 
-interface GraphQLType {
-  readonly name: string;
-  readonly fields: GraphQLField[] | null;
-}
-
-interface GraphQLField {
-  readonly name: string;
-}
+import { GraphQLField, GraphQLType } from "./types";
 
 class GraphqlJsonToSdl extends Command {
   static description = "Converts a JSON GraphQL schema to GraphQL SDL.";
