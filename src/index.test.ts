@@ -84,6 +84,59 @@ describe("graphql-json-to-sdl given valid input", () => {
     });
 });
 
+describe("graphql-json-to-sdl given schemas with the same types and fields in a different order", () => {
+  const schema = fs.readFileSync(
+    path.resolve(__dirname, "../__fixtures__/schema.json"),
+    "utf-8"
+  );
+
+  const { data } = JSON.parse(schema);
+  data.__schema.types.reverse();
+  data.__schema.types.forEach((type: GraphQLType) => {
+    if (!type.fields) return;
+    type.fields.reverse();
+  });
+  const reversedSchema = JSON.stringify({ data });
+
+  test
+    .register("fs", setupFS)
+    .fs({
+      "./schema.json": schema,
+      "./reversedSchema.json": reversedSchema
+    })
+    .do(() => cmd.run(["./schema.json", "./schemaOne.graphql"]))
+    .do(() => cmd.run(["./reversedSchema.json", "./schemaTwo.graphql"]))
+    .it("produces the same output", () => {
+      const schemaOne = fs.readFileSync("./schemaOne.graphql").toString();
+      const schemaTwo = fs.readFileSync("./schemaTwo.graphql").toString();
+      expect(schemaOne).toBe(schemaTwo);
+    });
+});
+
+describe("graphql-json-to-sdl given no arguments", () => {
+  test
+    .do(() => cmd.run([]))
+    .catch(error => expect(error.message).toMatch(/Missing 2 required args/))
+    .it("writes to stderr");
+
+  test
+    .do(() => cmd.run([]))
+    .exit(2)
+    .it("exits with a status of 2");
+});
+
+describe("graphql-json-to-sdl given one argument", () => {
+  test
+    .do(() => cmd.run(["./schema.json"]))
+    .catch(error => expect(error.message).toMatch(/Missing 1 required arg/))
+    .it("writes to stderr");
+
+  test
+    .do(() => cmd.run([]))
+    .exit(2)
+    .it("exits with a status of 2");
+});
+
 describe("graphql-json-to-sdl given an empty JSON GraphQL schema", () => {
   test
     .register("fs", setupFS)
@@ -120,33 +173,4 @@ describe("graphql-json-to-sdl given a file that doesn't exist", () => {
     .do(() => cmd.run(["./missingSchema.json", "./schema.graphql"]))
     .exit(1)
     .it("exits with a status of 1");
-});
-
-describe("graphql-json-to-sdl given schemas with the same types and fields in a different order", () => {
-  const schema = fs.readFileSync(
-    path.resolve(__dirname, "../__fixtures__/schema.json"),
-    "utf-8"
-  );
-
-  const { data } = JSON.parse(schema);
-  data.__schema.types.reverse();
-  data.__schema.types.forEach((type: GraphQLType) => {
-    if (!type.fields) return;
-    type.fields.reverse();
-  });
-  const reversedSchema = JSON.stringify({ data });
-
-  test
-    .register("fs", setupFS)
-    .fs({
-      "./schema.json": schema,
-      "./reversedSchema.json": reversedSchema
-    })
-    .do(() => cmd.run(["./schema.json", "./schemaOne.graphql"]))
-    .do(() => cmd.run(["./reversedSchema.json", "./schemaTwo.graphql"]))
-    .it("produces the same output", () => {
-      const schemaOne = fs.readFileSync("./schemaOne.graphql").toString();
-      const schemaTwo = fs.readFileSync("./schemaTwo.graphql").toString();
-      expect(schemaOne).toBe(schemaTwo);
-    });
 });
