@@ -1,7 +1,7 @@
 {
   "name": "graphql-json-to-sdl",
   "description": "A command line utility for converting a JSON GraphQL schema to GraphQL SDL.",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "author": " @CDThomas",
   "bin": {
     "graphql-json-to-sdl": "./bin/run"
