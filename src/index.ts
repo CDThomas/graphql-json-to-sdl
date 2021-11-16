@@ -2,7 +2,7 @@ import { Command, flags } from "@oclif/command";
 import fs from "fs";
 import { buildClientSchema, printSchema } from "graphql";
 
-import { GraphQLField, GraphQLType } from "./types";
+import { GraphQLField, GraphQLType, GraphQLInputValue } from "./types";
 
 class GraphqlJsonToSdl extends Command {
   static description = "Converts a JSON GraphQL schema to GraphQL SDL.";
@@ -62,6 +62,12 @@ function writeSchema(src: string, out: string) {
 
     type.fields.sort((a: GraphQLField, b: GraphQLField) => {
       return a.name.localeCompare(b.name);
+    });
+
+    type.fields.forEach((field: GraphQLField) => {
+      field.args.sort((a: GraphQLInputValue, b: GraphQLInputValue) => {
+        return a.name.localeCompare(b.name);
+      });
     });
   });
 

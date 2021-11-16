@@ -5,4 +5,9 @@ export interface GraphQLType {
 
 export interface GraphQLField {
   readonly name: string;
+  readonly args: GraphQLInputValue[]
+}
+
+export interface GraphQLInputValue {
+  readonly name: string;
 }
