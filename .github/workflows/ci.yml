@@ -1,0 +1,28 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches:
+      - master
+
+jobs:
+  build_and_test:
+    name: Build and test
+
+    strategy:
+      matrix:
+        node: [12, 14, 16]
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: '12.x'
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+      - run: yarn tsc -b
+      - run: yarn test
