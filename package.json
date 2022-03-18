@@ -51,8 +51,8 @@
     "lint": "tslint -p . -t stylish",
     "posttest": "yarn lint",
     "prepack": "rm -rf lib && tsc -b",
-    "report-coverage": "cat ./coverage/lcov.info | codecov",
     "test": "jest",
+    "test:coverage": "jest --coverage",
     "test:watch": "jest --watch"
   },
   "types": "lib/index.d.ts"
