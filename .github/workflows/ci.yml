@@ -21,8 +21,17 @@ jobs:
       - name: Use Node.js
         uses: actions/setup-node@v1
         with:
-          node-version: '12.x'
+          node-version: ${{ matrix.node }}
+
       - name: Install dependencies
         run: yarn install --frozen-lockfile
-      - run: yarn tsc -b
-      - run: yarn test
+
+      - name: Build
+        run: yarn tsc -b
+
+      - name: Test
+        run: yarn test:coverage
+
+      - name: Post Coverage
+        uses: codecov/codecov-action@v2
+        if: matrix.node == '16'
