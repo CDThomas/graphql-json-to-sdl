@@ -34,4 +34,4 @@ jobs:
 
       - name: Post Coverage
         uses: codecov/codecov-action@v2
-        if: matrix.node-version == '16'
+        if: matrix.node == '16'
