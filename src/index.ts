@@ -2,7 +2,7 @@ import { Command, flags } from "@oclif/command";
 import fs from "fs";
 import { buildClientSchema, printSchema } from "graphql";
 
-import { GraphQLField, GraphQLType, GraphQLInputValue } from "./types";
+import { GraphQLField, GraphQLInputValue, GraphQLType } from "./types";
 
 class GraphqlJsonToSdl extends Command {
   static description = "Converts a JSON GraphQL schema to GraphQL SDL.";
@@ -42,7 +42,7 @@ class GraphqlJsonToSdl extends Command {
   }
 }
 
-class EmptySchemaError extends Error {}
+class EmptySchemaError extends Error { }
 
 function writeSchema(src: string, out: string) {
   const fileContent = fs.readFileSync(src, "utf-8");
