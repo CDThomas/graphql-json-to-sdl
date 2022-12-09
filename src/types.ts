@@ -1,6 +1,7 @@
 export interface GraphQLType {
   readonly name: string;
   readonly fields: GraphQLField[] | null;
+  readonly inputFields: GraphQLInputField[] | null;
 }
 
 export interface GraphQLField {
@@ -9,5 +10,9 @@ export interface GraphQLField {
 }
 
 export interface GraphQLInputValue {
+  readonly name: string;
+}
+
+export interface GraphQLInputField {
   readonly name: string;
 }

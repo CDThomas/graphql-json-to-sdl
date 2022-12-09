@@ -21,9 +21,9 @@ interface Character {
 
 \\"\\"\\"The input object sent when passing in a color\\"\\"\\"
 input ColorInput {
-  red: Int!
-  green: Int!
   blue: Int!
+  green: Int!
+  red: Int!
 }
 
 \\"\\"\\"An autonomous mechanical character in the Star Wars universe\\"\\"\\"
@@ -158,14 +158,14 @@ type Review {
 
 \\"\\"\\"The input object sent when someone is creating a new review\\"\\"\\"
 input ReviewInput {
-  \\"\\"\\"0-5 stars\\"\\"\\"
-  stars: Int!
-
   \\"\\"\\"Comment about the movie, optional\\"\\"\\"
   commentary: String
 
   \\"\\"\\"Favorite color, optional\\"\\"\\"
   favorite_color: ColorInput
+
+  \\"\\"\\"0-5 stars\\"\\"\\"
+  stars: Int!
 }
 
 union SearchResult = Human | Droid | Starship
