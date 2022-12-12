@@ -2,7 +2,7 @@ import { Command, flags } from "@oclif/command";
 import fs from "fs";
 import { buildClientSchema, printSchema } from "graphql";
 
-import { GraphQLField, GraphQLInputValue, GraphQLType } from "./types";
+import { GraphQLField, GraphQLType } from "./types";
 
 class GraphqlJsonToSdl extends Command {
   static description = "Converts a JSON GraphQL schema to GraphQL SDL.";
@@ -53,22 +53,20 @@ function writeSchema(src: string, out: string) {
 
   const { data } = JSON.parse(fileContent);
 
-  data.__schema.types.sort((a: GraphQLType, b: GraphQLType) => {
-    return a.name.localeCompare(b.name);
-  });
+  sortByName(data.__schema.types);
 
   data.__schema.types.forEach((type: GraphQLType) => {
-    if (!type.fields) return;
+    if (type.fields) {
+      sortByName(type.fields);
 
-    type.fields.sort((a: GraphQLField, b: GraphQLField) => {
-      return a.name.localeCompare(b.name);
-    });
-
-    type.fields.forEach((field: GraphQLField) => {
-      field.args.sort((a: GraphQLInputValue, b: GraphQLInputValue) => {
-        return a.name.localeCompare(b.name);
+      type.fields.forEach((field: GraphQLField) => {
+        sortByName(field.args);
       });
-    });
+    }
+
+    if (type.inputFields) {
+      sortByName(type.inputFields);
+    }
   });
 
   const clientSchema = buildClientSchema(data);
@@ -76,6 +74,10 @@ function writeSchema(src: string, out: string) {
   const graphqlSchemaString = printSchema(clientSchema);
 
   fs.writeFileSync(out, graphqlSchemaString);
+}
+
+function sortByName<T extends { name: string }>(items: T[]) {
+  items.sort((a: T, b: T) => a.name.localeCompare(b.name));
 }
 
 export = GraphqlJsonToSdl;
