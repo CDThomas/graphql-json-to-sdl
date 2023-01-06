@@ -10,7 +10,7 @@ import { GraphQLType } from "./types";
 
 const deleteFolderRecursive = (path: string) => {
   if (fs.existsSync(path)) {
-    fs.readdirSync(path).forEach(function(file) {
+    fs.readdirSync(path).forEach(function (file) {
       const curPath = path + "/" + file;
       if (fs.lstatSync(curPath).isDirectory()) {
         // recurse
@@ -81,6 +81,33 @@ describe("graphql-json-to-sdl given a valid GraphQL schema as JSON", () => {
     .do(() => cmd.run(["./schema.json", "./schema.graphql"]))
     .it("writes the GraphQL schema in SDL to a file", () => {
       expect(fs.readFileSync("./schema.graphql").toString()).toMatchSnapshot();
+    });
+});
+
+describe("graphql-json-to-sdl given a valid GraphQL schema without the data key as JSON", () => {
+  const schema = fs.readFileSync(
+    path.resolve(__dirname, "../__fixtures__/schema.json"),
+    "utf-8"
+  );
+
+  const { data } = JSON.parse(schema);
+  const rawSchema = JSON.stringify(data);
+
+  test
+    .register("fs", setupFS)
+    .fs({
+      "./schema.json": schema,
+      "./rawSchema.json": rawSchema
+    })
+    .do(() => cmd.run(["./schema.json", "./schemaOne.graphql"]))
+    .do(() => cmd.run(["./rawSchema.json", "./schemaTwo.graphql"]))
+    .it("produces the same output", () => {
+      const schemaOne = fs.readFileSync("./schemaOne.graphql").toString();
+      const schemaTwo = fs.readFileSync("./schemaTwo.graphql").toString();
+
+      expect(schemaOne).toBeTruthy();
+      expect(schemaTwo).toBeTruthy();
+      expect(schemaOne).toBe(schemaTwo);
     });
 });
 

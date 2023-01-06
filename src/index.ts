@@ -15,7 +15,11 @@ class GraphqlJsonToSdl extends Command {
       required: true,
       description: "The JSON GraphQL schema to convert."
     },
-    { name: "out", required: true, description: "The output file." }
+    {
+      name: "out",
+      required: true,
+      description: "The output file."
+    }
   ];
 
   static flags = {
@@ -42,7 +46,7 @@ class GraphqlJsonToSdl extends Command {
   }
 }
 
-class EmptySchemaError extends Error { }
+class EmptySchemaError extends Error {}
 
 function writeSchema(src: string, out: string) {
   const fileContent = fs.readFileSync(src, "utf-8");
@@ -51,7 +55,8 @@ function writeSchema(src: string, out: string) {
     throw new EmptySchemaError();
   }
 
-  const { data } = JSON.parse(fileContent);
+  const content = JSON.parse(fileContent);
+  const data = content.data || content;
 
   sortByName(data.__schema.types);
 
